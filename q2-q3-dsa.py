@@ -57,7 +57,7 @@ def dsa_verify(p, q, g, y, r, s, message):
 
     return v == r
 
-m1 = int.to_bytes(582346829057612, 8)
+m1 = int.to_bytes(582346829057612, 7)
 
 #Generate signature for m1
 r1, s1 = dsa_sign(m1, p, q, g, x, k)
@@ -81,7 +81,7 @@ def recover_k_and_x(m1, m2, s1, s2, r, q):
     return k, x
 
 
-m2 = int.to_bytes(8061474912583, 8)
+m2 = int.to_bytes(8061474912583, 6)
 
 #Generate signature for m2
 r2, s2 = dsa_sign(m2, p, q, g, x, k)
