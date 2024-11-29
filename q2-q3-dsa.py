@@ -67,7 +67,35 @@ is_valid = dsa_verify(p, q, g, y, r1, s1, m1)
 print("Valid:", is_valid)
 
 #section for q3
+
+#function to recover k and x 
+def recover_k_and_x(m1, m2, s1, s2, r, q):
+    #compute hashes of messages m1 and m2 
+    h_m1 = int.from_bytes(hashlib.sha1(m1).digest())
+    h_m2 = int.from_bytes(hashlib.sha1(m2).digest())
+
+    #compute k and x
+    k = ((h_m1 - h_m2) * pow(s1 - s2, -1, q)) % q
+    x = ((s1 * k -  h_m1) * pow(r, -1, q)) % q
+
+    return k, x
+
+
 m2 = int.to_bytes(8061474912583, 8)
 
 #Generate signature for m2
 r2, s2 = dsa_sign(m2, p, q, g, x, k)
+
+print("Signatures:")
+print(f"Message 1: r = {r1}, s = {s1}")
+print(f"Message 2: r = {r2}, s = {s2}")
+
+print("Actual keys:")
+print(f"k = {k}")
+print(f"x = {x}")
+
+recovered_k, recovered_x = recover_k_and_x(m1, m2, s1, s2, r1, q)
+
+print("Recovered keys:")
+print(f"recovered_k = {recovered_k}")
+print(f"recovered_x = {recovered_x}")
