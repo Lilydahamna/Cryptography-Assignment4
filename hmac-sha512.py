@@ -32,9 +32,9 @@ key = os.urandom(64)
 message = b"I am using this input string to test my own implementation of HMAC-SHA-512."
 
 #Compute using own implementation 
-hmac_result = hmac_sha512(key, message)
+hmac_result = int.from_bytes(hmac_sha512(key, message))
 print("HMAC-SHA-512 personal implementation:", hmac_result)
 
 #compute using library implementation
-library_hmac_result = hmac.new(key, message, hashlib.sha512).digest()
+library_hmac_result = int.from_bytes(hmac.new(key, message, hashlib.sha512).digest())
 print("Library HMAC-SHA-512 implementation:", library_hmac_result)
